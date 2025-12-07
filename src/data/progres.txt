@@ -1,0 +1,9 @@
+
+NOTA:
+esta es una guia a futuro cuando se termine la api
+ya que la primera version estable de la api los datos se van a almacenar en un json
+ya que en hasta esta fecha 2025-12-7 no tengo mucho conocimiento sobre bases de datos 
+ya cuando aprenda algo lo que  nesecito para hacer un crud podre implementarlo con 
+sqlite 
+
+ESTA NOTA ES PARA MI EN EL FUTURO PARA QUE NO SE ME OLVIDE Y PARA LA GENTE QUE VEA ESTO 
