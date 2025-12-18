@@ -13,6 +13,7 @@ primero hice una version para CLI  ```https://github.com/marcozxdev/task-tracker
 git clone https://github.com/marcozxdev/task-tracker-API
 cd task-tracker-API
 pip install -r requirements.txt
+pip install -e .
 ```
 
 ---
@@ -20,7 +21,7 @@ pip install -r requirements.txt
 ## Uso
 
 ```bash
-python3 src/app.py
+python3 -m app.main
 ```
 
 ---
