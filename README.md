@@ -20,10 +20,3 @@ pip install -e .
 
 ## Uso
 
-```bash
-python3 -m app.main
-```
-
----
-
-## Documentacion
