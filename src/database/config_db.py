@@ -72,7 +72,7 @@ def estructure_db(database: Database):
     cursor.execute("PRAGMA foreign_keys = ON;")
 
     cursor.execute("""
-    CREATE TABLE IF NOT EXIST users (
+    CREATE TABLE IF NOT EXISTS users (
                    id INTEGER PRIMARY KEY AUTOINCREMENT,
                    user_name TEXT NOT NULL,
                    password TEXT NOT NULL,
@@ -88,7 +88,7 @@ def estructure_db(database: Database):
                    descripcion TEX NOT NULL,
                    estado TEXT,
                    user_id INTEGER,
-                   FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+                   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
     );
     """)
 
