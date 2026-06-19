@@ -75,5 +75,21 @@ class ListTask:
 
 
 
+class FindTask:
+    def __init__(self, repo: TaskRepo):
+        self.repo  = repo
+
+
+    
+    async def find_task_by_title(self, user_id, title, limit=1):
+        tasks_db = self.repo.find_task(user_id=user_id, titulo=title, limit=limit)
+        if tasks_db:
+            task: list[TaskResponse] = []
+            for task in tasks_db:
+                task.append(TaskResponse(**task))
+            return task
+        return None
+
+
 
 
