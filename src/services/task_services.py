@@ -84,10 +84,10 @@ class FindTask:
     async def find_task_by_title(self, user_id, title, limit=1):
         tasks_db = self.repo.find_task(user_id=user_id, titulo=title, limit=limit)
         if tasks_db:
-            task: list[TaskResponse] = []
+            tasks: list[TaskResponse] = []
             for task in tasks_db:
-                task.append(TaskResponse(**task))
-            return task
+                tasks.append(TaskResponse(**task))
+            return tasks
         return None
 
 
