@@ -10,7 +10,18 @@ class UserRepo:
     def  __init__(self, db: Database):
         self.db = db
 
-    def create_user(self, user: UserCreate):
+    
+    async def get_user(self, email):
+        self.db.execute("""
+        SELECT * FROM users
+        WHERE email = ?
+        """,(email,))
+        data = self.db.fetchone()
+        if data:
+            return data
+        return False
+
+    async def create_user(self, user: UserCreate):
         """crea nuevo usario """
         try:
             self.db.execute("""
@@ -21,7 +32,7 @@ class UserRepo:
         except:
             return False
         
-    def update_user(self, user: UserCreate, user_id):
+    async def update_user(self, user: UserCreate, user_id):
         """actualiza toda la fila por id"""
         try:
             self.db.execute("""
@@ -33,7 +44,7 @@ class UserRepo:
         except:
             return False
 
-    def delete_user(self, user_id):
+    async def delete_user(self, user_id):
         """borra usuario por id"""
         try:
             self.db.execute("""
@@ -55,7 +66,7 @@ class TaskRepo:
         self.db = db
 
     
-    def create_task(self, task: TaskCreate):
+    async def create_task(self, task: TaskCreate):
         """crea una nueva tarea"""
 
         try:
@@ -69,7 +80,7 @@ class TaskRepo:
         except:
             return False
 
-    def list_my_tasks(self, user_id: int, limit: int = 3):
+    async def list_my_tasks(self, user_id: int, limit: int = 3):
         """lista las tareas de un usario desde la mas reciente con limite """
     
         self.db.execute("""
@@ -86,7 +97,7 @@ class TaskRepo:
         
             
 
-    def find_task(self, user_id: int, titulo: str | None = None, limit: int=1):
+    async def find_task(self, user_id: int, titulo: str | None = None, limit: int=1):
         """busca tarea por titulo """
         patron = f"%{titulo}%" 
         self.db.execute("""
@@ -101,7 +112,7 @@ class TaskRepo:
         return False
         
 
-    def delete_task(self, user_id: int, task_id: int):
+    async def delete_task(self, user_id: int, task_id: int):
         """borra tarea por  id  """
         try:
             self.db.execute("""
@@ -113,7 +124,7 @@ class TaskRepo:
         except:
             return False
 
-    def update_state(self, user_id: int, task_id: int):
+    async def update_state(self, user_id: int, task_id: int):
         """actualiza el estado de una tarea"""
         try:
             self.db.execute("""
@@ -126,7 +137,7 @@ class TaskRepo:
         except:
             return False
 
-    def list_by_state(self, user_id: int, estado: str):
+    async def list_by_state(self, user_id: int, estado: str):
         """lista tarea por estado"""
         self.db.execute("""
         SELEC * FROM tasks

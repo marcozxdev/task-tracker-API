@@ -6,6 +6,9 @@ class User(BaseModel):
     email: str
 
 
+class UserValidation(BaseModel):
+    email: str
+    password: str
 
 class UserCreate(User):
     password: str
