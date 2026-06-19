@@ -31,13 +31,12 @@ class UpdateTask:
 
 
 class DeleteTask:
-    def __init__(self, task: TaskResponse, repo: TaskRepo):
-        self.task = task 
+    def __init__(self, repo: TaskRepo): 
         self.repo = repo
 
     
-    async def delete_task(self):
-        return await self.repo.delete_task(user_id=self.task.user_id, task_id=self.task.id)
+    async def delete_task(self, user_id: int, task_id: int):
+        return await self.repo.delete_task(user_id=user_id, task_id=task_id)
     
 
 
@@ -62,7 +61,7 @@ class ListTask:
         
 
 
-    async def list_by_state(self, user_id, state):
+    async def list_by_state(self, user_id: int, state: str):
         tasks_db = await self.repo.list_by_state(user_id=user_id, estado=state)
         if tasks_db:
             tasks: list[TaskResponse] = []
@@ -81,7 +80,7 @@ class FindTask:
 
 
     
-    async def find_task_by_title(self, user_id, title, limit=1):
+    async def find_task_by_title(self, user_id: int, title: str, limit: int | None = 1):
         tasks_db = self.repo.find_task(user_id=user_id, titulo=title, limit=limit)
         if tasks_db:
             tasks: list[TaskResponse] = []
