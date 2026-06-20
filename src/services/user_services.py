@@ -7,15 +7,14 @@ from src.schemas.shcemas import *
 
 
 class AuthUse:
-    def __init__(self, user: UserValidation, repo: UserRepo):
-        self.user = user
+    def __init__(self, repo: UserRepo):
         self.repo = repo
 
 
-    async def validate_user(self):
-        user_db = await self.repo.get_user(self.user.email)
+    async def validate_user(self, user: UserValidation):
+        user_db = await self.repo.get_user(user.email)
         if user_db:
-            is_user = verify_pwd(self.user.password, user_db["password"])
+            is_user = verify_pwd(user.password, user_db["password"])
             if is_user:
                 return UserResponse(**user_db)
             else:
@@ -29,62 +28,55 @@ class AuthUse:
 
 
 class CreateUser:
-    def __init__(self, user: UserCreate, repo: UserRepo):
-        self.user = user
+    def __init__(self, repo: UserRepo):
         self.repo = repo
 
+
     
-    async def create_user(self):
-        return await self.repo.create_user(user=self.user)
+    async def create_user(self, user: UserCreate):
+        user.password = hash_pwd(user.password)
+        return await self.repo.create_user(user=user)
     
 
 
 
 class GetUser:
-    def __init__(self, email: str, repo: UserRepo):
-        self.email = email
+    def __init__( self, repo: UserRepo):
         self.repo = repo
 
 
-    async def get_user(self):
-        data = await self.repo.get_user(email=self.email)
-        return UserResponse(**data)
+    async def get_user(self, email):
+        data = await self.repo.get_user(email=email)
+        if data:
+            return UserResponse(**data)
+        return None
     
 
 
 class UpdateUser:
-    def __init__(self, user: UserCreate, repo: UserRepo, id: int | None = None):
-        self.user = user
+    def __init__(self,  repo: UserRepo):
         self.repo  = repo
-        self.id = id
 
-    async def update_user(self):
-        if self.id :
-            return await self.repo.update_user(user=self.user, user_id=self.id)
+    async def update_user(self, user: UserCreate, id: int):
+        if id is not None:
+            return await self.repo.update_user(user=user, user_id=id)
         return None
 
 
 
 class DeleteUser:
-    def __init__(self, id: int, repo: UserRepo):
-        self.id = id
+    def __init__(self, repo: UserRepo):
         self.repo = repo
 
     
-    async def delet_user(self):
-        return self.repo.delete_user(user_id=self.id)
+    async def delet_user(self, id: int):
+        return await self.repo.delete_user(user_id=id)
 
 
 
 
 
 
-class UserService:
-    def __init__(self, auth_user: UserResponse, repo: UserRepo):
-        self.user = auth_user
-        self.repo   = repo
-    
-    
 
     
 
