@@ -11,11 +11,11 @@ class UserRepo:
         self.db = db
 
     
-    async def get_user(self, email):
+    async def get_user(self, id: int):
         self.db.execute("""
         SELECT * FROM users
-        WHERE email = ?
-        """,(email,))
+        WHERE  id = ?
+        """,( id,))
         data = self.db.fetchone()
         if data:
             return data
@@ -124,14 +124,14 @@ class TaskRepo:
         except:
             return False
 
-    async def update_state(self, user_id: int, task_id: int):
+    async def update_state(self,estado: str, user_id: int, task_id: int):
         """actualiza el estado de una tarea"""
         try:
             self.db.execute("""
             UPDATE tasks
             SET estado = ?
             WHERE id = ? AND user_id = ?
-        """,(user_id, task_id))
+        """,(estado, user_id, task_id))
             self.db.commit()
             return True
         except:
