@@ -1,4 +1,4 @@
-from security.security import verify_pwd, hash_pwd
+from src.security.security import verify_pwd, hash_pwd
 from src.repos.repo import UserRepo, UserResponse
 from src.schemas.shcemas import *
 
@@ -45,8 +45,8 @@ class GetUser:
         self.repo = repo
 
 
-    async def get_user(self, email):
-        data = await self.repo.get_user(email=email)
+    async def get_user_by_id(self, id):
+        data = await self.repo.get_user(id=id)
         if data:
             return UserResponse(**data)
         return None
