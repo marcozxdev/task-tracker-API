@@ -1,17 +1,16 @@
 # from src.utils import *
 from src.repos.repo import TaskRepo
-from schemas.shcemas import *
+from src.schemas.shcemas import *
 
 
 
 
 class CreateTask:
-    def __init__(self, task: TaskCreate, repo: TaskRepo):
-        self.task = task
+    def __init__(self , repo: TaskRepo):
         self.repo = repo
 
-    async def create_task(self):
-        return await self.repo.create_task()
+    async def create_task(self, task: TaskCreate):
+        return await self.repo.create_task(task=task)
 
 
 
@@ -19,12 +18,16 @@ class CreateTask:
 
 
 class UpdateTask:
-    def __init__(self, task: TaskResponse, repo: TaskRepo):
-        self.task = task
+    def __init__(self, repo: TaskRepo):
         self.repo = repo
 
-    async def update_state(self):
-        return await self.repo.update_state(user_id=self.task.user_id, task_id=self.task.id)
+    async def update_state(self,estado: str, user_id: int, task_id: int ):
+        estados = ["HECHA", "EN-PROGRESO", "OLVIDADA"]
+        if estado in estados:
+            return await self.repo.update_state(estado=estados, user_id=user_id, task_id=task_id)
+        return False
+        
+
     
 
 
