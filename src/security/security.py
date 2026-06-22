@@ -1,14 +1,22 @@
-from passlib.context import CryptContext
+from pwdlib import PasswordHash
 
-pwd_context = CryptContext(schemes=["bcrypt"] )
+
+
+pwd_hash = PasswordHash.recommended() 
 
 
 def hash_pwd(password):
     """hashea la pasword"""
-    return pwd_context.hash(password)
+    return pwd_hash.hash(password)
 
 
 
 def verify_pwd(plain_pwd,  hashed_pwd):
     """valida la password"""
-    return pwd_context.verify(plain_pwd, hashed_pwd)
+    return pwd_hash.verify(plain_pwd, hashed_pwd)
+
+
+
+
+
+print(hash_pwd("pasword"))
