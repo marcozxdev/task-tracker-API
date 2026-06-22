@@ -36,19 +36,18 @@ from jose import jwt, JWTError
 
 
 ALGORITHM = "HS256"
-SECRET_KEY = "JAVASCRIPT_WEB_TOKEN1234EDSW" # MI EJEMPLO DE CLAVE
+SECRET_KEY = "_WEB_TOKEN1234EDSW" # MI EJEMPLO DE CLAVE
 EXPIRE = 30
 
 
-def create_access_token(user_id: int, email: str, user_name: str):
+def create_access_token(email: str, id: int):
     payload = {
-        "sub": user_id,
-        "username": user_name,
+        "id": id,
         "email": email,
         "exp": datetime.now(timezone.utc) + timedelta(minutes=EXPIRE)
         }
     
-    token = jwt.encode(payload, SECRET_KEY, algorithm=[ALGORITHM])
+    token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
     return token
 
@@ -61,5 +60,6 @@ def decode_access_token(token):
         return None
     
     
+
 
 
