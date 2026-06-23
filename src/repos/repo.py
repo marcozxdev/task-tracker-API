@@ -11,6 +11,18 @@ class UserRepo:
         self.db = db
 
     
+
+    async def get_user_by_email(self ,email: str):
+        self.db.execute("""
+        SELECT * FROM users
+        WHERE email = ?
+        """, (email,))
+        user = self.db.fetchone()
+        if user:
+            return user
+        return False
+
+
     async def get_user(self, id: int):
         self.db.execute("""
         SELECT * FROM users
@@ -32,14 +44,15 @@ class UserRepo:
         except:
             return False
         
-    async def update_user(self, user: UserCreate, user_id):
+    async def update_user(self, user: UserCreate, user_id: int):
         """actualiza toda la fila por id"""
         try:
             self.db.execute("""
             UPDATE users
             SET user_name = ?, password = ?, email = ?
             WHERE id = ?
-            """(user.user_name, user.password, user.email, user_id))
+            """, (user.user_name, user.password, user.email, user_id))
+            self.db.commit()
             return True
         except:
             return False
@@ -143,7 +156,7 @@ class TaskRepo:
         SELEC * FROM tasks
         INNER JOIN users on tasks.user_id = users.id,
         WHERE estado = ? tasks.user_id = ?
-        """(estado, user_id))
+        """, (estado, user_id))
         data = self.db.fetchall()
         if data:
             return data
