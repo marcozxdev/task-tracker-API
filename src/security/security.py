@@ -19,4 +19,4 @@ def verify_pwd(plain_pwd,  hashed_pwd):
 
 
 
-print(hash_pwd("pasword"))
+# print(hash_pwd("pasword"))
