@@ -25,12 +25,12 @@ async def get_current_user(token: Annotated[str, Depends(oauth_schema) ], servic
     id = payload.get("id")
 
     
-    user = service.get_user_by_id(id=id)
+    user = await service.get_user_by_id(id=id)
 
     if not user:
         raise HTTPException(404, detail="User not found")
 
-    return user
+    return UserResponse(user_name=user.user_name, email=user.email, id=user.id)
 
 
 
@@ -42,6 +42,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth_schema) ], servic
 
 @router.post("/login", status_code=201)
 async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], service: AuthUse = Depends(get_auth_user)):
+
     user: UserResponse = await service.validate_user(UserValidation(email=form_data.username, password=form_data.password))
 
     if not user:
@@ -61,6 +62,11 @@ async def user_data_rules(user: UserCreate):
     if not (len(user.user_name) > 3 and "@" in user.email and len(user.password) >= 8):
         return False
     return UserCreate(user_name=user.user_name, email=user.email, password=user.password)
+
+
+
+
+
 
 
 
@@ -86,20 +92,43 @@ async def register(user: UserCreate, service: CreateUser = Depends(get_create_us
 
 @router.get("/me/",status_code=200)
 async def me_user(current_user: UserResponse  = Depends(get_current_user)):
-    return  await current_user
+    return   current_user
 
 
 
-@router.put("/update/")
-async def update_user(user: UserCreate , current_user = Depends(get_current_user), service: CreateUser = Depends(get_update_user)):
+@router.put("/update/", status_code=201)
+async def update_user(user: UserCreate , current_user: UserResponse = Depends(get_current_user), service: UpdateUser = Depends(get_update_user)):
     
     user_validation = await user_data_rules(user=user)
+    
 
     if not  user_validation:
         return HTTPException(400)
 
+    new_update_user = await service.update_user(user, id=current_user.id)
+    if not new_update_user:
+        HTTPException(400)
 
 
+    return {"message": "user update"}
+
+
+
+
+
+
+
+
+
+
+@router.delete("/del/{id}", status_code=204)
+async def delete_user_id(id: int, current_user: UserResponse = Depends(get_current_user), service: DeleteUser = Depends(get_delete_user)):
+
+    if not id == current_user.id:
+        raise HTTPException(status_code=404)
+
+    await service.delete_user(current_user.id)
+    
 
 
 
