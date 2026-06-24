@@ -12,7 +12,7 @@ class AuthUse:
 
 
     async def validate_user(self, user: UserValidation):
-        user_db = await self.repo.get_user(user.email)
+        user_db = await self.repo.get_user_by_email(user.email)
         if user_db:
             is_user = verify_pwd(user.password, user_db["password"])
             if is_user:
@@ -58,9 +58,10 @@ class UpdateUser:
         self.repo  = repo
 
     async def update_user(self, user: UserCreate, id: int):
-        if id is not None:
-            return await self.repo.update_user(user=user, user_id=id)
-        return None
+        
+        user.password = hash_pwd(user.password)
+        return await self.repo.update_user(user=user, user_id=id)
+        
 
 
 
@@ -69,7 +70,10 @@ class DeleteUser:
         self.repo = repo
 
     
-    async def delet_user(self, id: int):
+    async def delete_user(self, id: int):
+        is_user = await GetUser(repo=self.repo).get_user_by_id(id=id)
+        if not is_user:
+            return False 
         return await self.repo.delete_user(user_id=id)
 
 
