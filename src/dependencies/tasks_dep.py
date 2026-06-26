@@ -8,7 +8,7 @@ from src.dependencies.db_dep import get_db
 
 
 def get_task_repo(db = Depends(get_db)):
-    return db
+    return TaskRepo(db=db)
 
 
 
