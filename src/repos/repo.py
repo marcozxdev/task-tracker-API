@@ -75,7 +75,7 @@ class UserRepo:
 
 
 class TaskRepo:
-    def __int__(self, db: Database):
+    def __init__(self, db: Database):
         self.db = db
 
     
@@ -100,7 +100,7 @@ class TaskRepo:
         SELECT tasks.id, tasks.titulo, tasks.descripcion, tasks.estado FROM tasks
         INNER JOIN users on	tasks.user_id = users.id
         WHERE users.id = ?
-        ORDER BY DESC
+        ORDER BY tasks.id DESC
         LIMIT ?
         """, (user_id, limit))
         tasks = self.db.fetchall()
@@ -119,7 +119,7 @@ class TaskRepo:
         WHERE users.id = ? AND tasks.titulo LIKE ?
         LIMIT ?
             """,(user_id, patron, limit))
-        tasks = self.db.rollback()
+        tasks = self.db.fetchall()
         if tasks:
             return tasks
         return False
@@ -144,7 +144,7 @@ class TaskRepo:
             UPDATE tasks
             SET estado = ?
             WHERE id = ? AND user_id = ?
-        """,(estado, user_id, task_id))
+        """,(estado, task_id, user_id))
             self.db.commit()
             return True
         except:
@@ -153,9 +153,9 @@ class TaskRepo:
     async def list_by_state(self, user_id: int, estado: str):
         """lista tarea por estado"""
         self.db.execute("""
-        SELEC * FROM tasks
-        INNER JOIN users on tasks.user_id = users.id,
-        WHERE estado = ? tasks.user_id = ?
+        SELECT tasks.id, titulo, descripcion, estado FROM tasks
+        INNER JOIN users on tasks.user_id = users.id
+        WHERE estado = ? AND tasks.user_id = ?
         """, (estado, user_id))
         data = self.db.fetchall()
         if data:
