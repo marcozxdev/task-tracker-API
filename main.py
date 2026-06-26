@@ -23,7 +23,7 @@ app.include_router(
 
     task_router,
 
-    prefix="/tasks",
+    prefix="/users/tasks",
 
     tags=["Tasks"]
 
