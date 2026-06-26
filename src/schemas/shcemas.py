@@ -23,6 +23,10 @@ class Task(BaseModel):
     descripcion: str
     estado: str
 
+class TaskReq(BaseModel):
+    titulo: str
+    descripcion: str
+
 
 class TaskCreate(Task):
     user_id: int
