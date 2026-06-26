@@ -12,8 +12,6 @@ primero hice una version para CLI  ```https://github.com/marcozxdev/task-tracker
 ```bash
 git clone https://github.com/marcozxdev/task-tracker-API
 cd task-tracker-API
-pip install -r requirements.txt
-pip install -e .
 ```
 
 ---
