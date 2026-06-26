@@ -37,7 +37,7 @@ from jose import jwt, JWTError
 
 ALGORITHM = "HS256"
 SECRET_KEY = "_WEB_TOKEN1234EDSW" # MI EJEMPLO DE CLAVE
-EXPIRE = 30
+EXPIRE = 60
 
 
 def create_access_token(email: str, id: int):
