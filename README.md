@@ -57,6 +57,11 @@ La aplicación registra los routers en `main.py` con estos prefijos:
 
 ---
 
+
+# Link De Consultas En Postman
+- [Postman](https://www.postman.com/maintenance-astronomer-40736067-s-team/workspace/task-tracker-api/collection/44371093-45834fd4-bbf1-44f7-a538-925578e327bf?action=share&creator=44371093)
+
+
 ## Rutas de usuario
 
 ### Registrar usuario
