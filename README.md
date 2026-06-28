@@ -34,14 +34,13 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-> No es necesario usar `pip install -e .` para este proyecto.
 
 ---
 
 ## Ejecutar la aplicación
 
 ```bash
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+fastapi run
 ```
 
 La API quedará disponible en `http://127.0.0.1:8000`.
