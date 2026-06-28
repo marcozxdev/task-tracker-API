@@ -52,7 +52,7 @@ async def  my_tasks(limit: int = 5, state: str = None ,current_user: UserRespons
     if state is None:
         tasks = await service.list_tasks(user_id=user_id, limit=limit)
         if not tasks:
-            raise HTTPException(404)
+            raise HTTPException(204)
         return tasks
     
 

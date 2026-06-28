@@ -13,6 +13,17 @@ Esta versión está construida con FastAPI y tiene rutas de usuario y tareas sep
 
 ---
 
+## Tecnologias
+- Fastapi
+- JWT
+- SQlite
+- Passlib
+- Pydantic
+- Dependency Injection
+
+---
+
+
 ## 🚀 Instalación
 
 ```bash

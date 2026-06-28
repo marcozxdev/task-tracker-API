@@ -121,11 +121,9 @@ async def update_user(user: UserCreate , current_user: UserResponse = Depends(ge
 
 
 
-@router.delete("/del/{id}", status_code=204)
-async def delete_user_id(id: int, current_user: UserResponse = Depends(get_current_user), service: DeleteUser = Depends(get_delete_user)):
+@router.delete("/del/", status_code=204)
+async def delete_user_id(current_user: UserResponse = Depends(get_current_user), service: DeleteUser = Depends(get_delete_user)):
 
-    if not id == current_user.id:
-        raise HTTPException(status_code=404)
 
     await service.delete_user(current_user.id)
     
